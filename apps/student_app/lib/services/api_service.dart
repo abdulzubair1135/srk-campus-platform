@@ -4,7 +4,10 @@ import 'package:dio/dio.dart';
 class StudentApiService {
   static final StudentApiService _instance = StudentApiService._internal();
   factory StudentApiService() => _instance;
-  StudentApiService._internal();
+  StudentApiService._internal() {
+    _dio.options.connectTimeout = const Duration(milliseconds: 1200);
+    _dio.options.receiveTimeout = const Duration(milliseconds: 1200);
+  }
 
   String baseUrl = 'http://localhost:5000/api/v1';
   final Dio _dio = Dio();

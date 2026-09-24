@@ -3,7 +3,10 @@ import 'package:dio/dio.dart';
 class AdminApiService {
   static final AdminApiService _instance = AdminApiService._internal();
   factory AdminApiService() => _instance;
-  AdminApiService._internal();
+  AdminApiService._internal() {
+    _dio.options.connectTimeout = const Duration(milliseconds: 1200);
+    _dio.options.receiveTimeout = const Duration(milliseconds: 1200);
+  }
 
   String baseUrl = 'http://localhost:5000/api/v1';
   final Dio _dio = Dio();
