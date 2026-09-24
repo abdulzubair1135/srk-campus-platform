@@ -132,6 +132,13 @@ class _RollingQrDisplayScreenState extends State<RollingQrDisplayScreen> {
                         ),
                       ],
                     ),
+                    if (_qrPayload.isNotEmpty) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        'Token: ${_qrPayload.length > 24 ? '${_qrPayload.substring(0, 24)}...' : _qrPayload}',
+                        style: const TextStyle(fontSize: 10, color: Colors.grey, fontFamily: 'monospace'),
+                      ),
+                    ],
                   ],
                 ),
               ),

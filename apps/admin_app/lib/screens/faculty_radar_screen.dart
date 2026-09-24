@@ -245,13 +245,13 @@ class _FacultyRadarScreenState extends State<FacultyRadarScreen> {
             TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
             ElevatedButton(
               onPressed: () async {
+                final messenger = ScaffoldMessenger.of(context);
+                final nav = Navigator.of(ctx);
                 await AdminApiService().requestMeeting(faculty['name'], reqType, reasonController.text);
-                if (mounted) {
-                  Navigator.pop(ctx);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Dispatched $reqType request to ${faculty['name']}')),
-                  );
-                }
+                nav.pop();
+                messenger.showSnackBar(
+                  SnackBar(content: Text('Dispatched $reqType request to ${faculty['name']}')),
+                );
               },
               style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF283593), foregroundColor: Colors.white),
               child: const Text('Send Alert'),

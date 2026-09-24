@@ -54,19 +54,19 @@ class _StudentScannerRosterScreenState extends State<StudentScannerRosterScreen>
     final roster = _classRosters[_selectedClass] ?? [];
     if (roster.length > 7) {
       final s = roster[7]; // Riya Solanki
+      await TeacherApiService().verifyStudentQr('CAMPUS_STUDENT_ID_V1:${s['enroll']}:verified');
+      if (!mounted) return;
       setState(() {
         s['status'] = 'PRESENT';
         s['conf'] = 98;
         s['source'] = 'Teacher Direct ID Scan';
       });
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: const Color(0xFF00897B),
-            content: Text('Direct Verified: ${s['name']} (${s['enroll']}) -> Present 98% (LH-3)'),
-          ),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: const Color(0xFF00897B),
+          content: Text('Direct Verified: ${s['name']} (${s['enroll']}) -> Present 98% (LH-3)'),
+        ),
+      );
     }
   }
 
