@@ -52,6 +52,109 @@ class _TeacherMainNavigationState extends State<TeacherMainNavigation> {
   String currentStatus = 'IN_CLASS (Teaching - Lecture Hall 3)';
   bool isMobileDataOff = true;
 
+  final List<Map<String, dynamic>> _teacherNotifications = [
+    {
+      'title': '⚠️ Mobile Data is OFF: BLE Mesh Active',
+      'desc': 'Mobile data is disconnected. BLE Mesh daemon is broadcasting presence and buffering student attendance locally.',
+      'time': 'Just now',
+      'type': 'ALERT',
+      'icon': Icons.bluetooth_audio,
+      'color': Colors.deepOrange,
+    },
+    {
+      'title': '📩 Meeting from Principal Dr. Nirdesh Buch',
+      'desc': 'Subject: NAAC Timetable Verification & Student Attendance Compliance in Principal Cabin.',
+      'time': '15 min ago',
+      'type': 'PRINCIPAL',
+      'icon': Icons.person_pin,
+      'color': Colors.purple,
+    },
+    {
+      'title': '📝 2 Student Leaves Pending',
+      'desc': 'Rahul Shah (Medical) & Priya Sharma (Hackathon) submitted leave applications for review.',
+      'time': '30 min ago',
+      'type': 'LEAVE',
+      'icon': Icons.event_busy,
+      'color': Colors.teal,
+    },
+    {
+      'title': '🟢 Room Verified: Lecture Hall 3 (LH-3)',
+      'desc': 'Physical room sticker QR scanned and verified. Dynamic 15s session unlocked.',
+      'time': '08:40 AM',
+      'type': 'ROOM',
+      'icon': Icons.door_front_door,
+      'color': Colors.green,
+    },
+  ];
+
+  void _showNotificationCenter() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        maxChildSize: 0.9,
+        minChildSize: 0.4,
+        expand: false,
+        builder: (ctx, scrollController) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.notifications_active, color: Color(0xFF00897B)),
+                      const SizedBox(width: 8),
+                      Text('Faculty Notifications (${_teacherNotifications.length})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                    ],
+                  ),
+                  IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
+                ],
+              ),
+              const Divider(),
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: _teacherNotifications.length,
+                  itemBuilder: (ctx, idx) {
+                    final n = _teacherNotifications[idx];
+                    final col = n['color'] as Color;
+                    return Card(
+                      elevation: 1,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: col.withAlpha(30),
+                          child: Icon(n['icon'], color: col, size: 20),
+                        ),
+                        title: Text(n['title'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 3),
+                            Text(n['desc'], style: const TextStyle(fontSize: 11)),
+                            const SizedBox(height: 4),
+                            Text(n['time'], style: const TextStyle(fontSize: 10, color: Colors.blueGrey)),
+                          ],
+                        ),
+                        isThreeLine: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = TeacherApiService().currentUser;
@@ -73,6 +176,16 @@ class _TeacherMainNavigationState extends State<TeacherMainNavigation> {
         backgroundColor: const Color(0xFF00897B),
         foregroundColor: Colors.white,
         actions: [
+          // Notification Bell with Badge
+          IconButton(
+            icon: Badge(
+              label: Text('${_teacherNotifications.length}'),
+              backgroundColor: Colors.amber.shade800,
+              child: const Icon(Icons.notifications_outlined),
+            ),
+            tooltip: 'Notifications',
+            onPressed: _showNotificationCenter,
+          ),
           PopupMenuButton<String>(
             initialValue: currentStatus,
             onSelected: (val) {
@@ -196,7 +309,7 @@ class _TeacherMainNavigationState extends State<TeacherMainNavigation> {
                 ],
               ),
             ),
-          Expanded(child: screens[_selectedIndex]),
+          Expanded(child: screens[_selectedIndex > 4 ? 0 : _selectedIndex]),
         ],
       ),
       bottomNavigationBar: NavigationBar(

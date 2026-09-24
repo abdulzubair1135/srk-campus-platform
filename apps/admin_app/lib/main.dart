@@ -48,6 +48,41 @@ class AdminMainNavigation extends StatefulWidget {
 class _AdminMainNavigationState extends State<AdminMainNavigation> {
   int _selectedIndex = 0;
 
+  final List<Map<String, dynamic>> _adminNotifications = [
+    {
+      'title': '⚠️ BLE Mesh Alert: Prof. Prakash Lambha (PL)',
+      'desc': 'Mobile data is OFF. Relaying attendance via student mesh in Python & App Lab.',
+      'time': 'Just now',
+      'type': 'ALERT',
+      'icon': Icons.bluetooth_audio,
+      'color': Colors.deepOrange,
+    },
+    {
+      'title': '🟡 Pending Scan: Prof. Jinal Sorathiya (JS)',
+      'desc': 'Slot active in Lecture Hall 5 (LH-5). Physical room QR not yet scanned (15 min elapsed).',
+      'time': '15 min ago',
+      'type': 'COMPLIANCE',
+      'icon': Icons.warning_amber,
+      'color': Colors.amber.shade900,
+    },
+    {
+      'title': '🟢 Live Class Verified: Dr. Nirdesh Buch (NB)',
+      'desc': 'Lecture Hall 6 (LH-6) verified with 98% presence confidence. 52 students present.',
+      'time': '08:40 AM',
+      'type': 'ROOM',
+      'icon': Icons.check_circle,
+      'color': Colors.green,
+    },
+    {
+      'title': '🟣 Meeting in Progress: Principal Cabin',
+      'desc': 'Prof. Rishi Sonpar (RS - HOD BBA) present with Dr. Nirdesh Buch for NAAC compliance.',
+      'time': '08:45 AM',
+      'type': 'MEETING',
+      'icon': Icons.person_pin,
+      'color': Colors.purple,
+    },
+  ];
+
   final List<Widget> _screens = const [
     FacultyRadarScreen(),
     FuzzySearchScreen(),
@@ -55,6 +90,74 @@ class _AdminMainNavigationState extends State<AdminMainNavigation> {
     AnalyticsDashboardScreen(),
     AuditTrailScreen(),
   ];
+
+  void _showAdminNotificationCenter() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        maxChildSize: 0.9,
+        minChildSize: 0.4,
+        expand: false,
+        builder: (ctx, scrollController) => Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.notifications_active, color: Color(0xFF283593)),
+                      const SizedBox(width: 8),
+                      Text('Principal Live Feed (${_adminNotifications.length})', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                    ],
+                  ),
+                  IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(ctx)),
+                ],
+              ),
+              const Divider(),
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: _adminNotifications.length,
+                  itemBuilder: (ctx, idx) {
+                    final n = _adminNotifications[idx];
+                    final col = n['color'] as Color;
+                    return Card(
+                      elevation: 1,
+                      margin: const EdgeInsets.only(bottom: 10),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: col.withAlpha(30),
+                          child: Icon(n['icon'], color: col, size: 20),
+                        ),
+                        title: Text(n['title'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 3),
+                            Text(n['desc'], style: const TextStyle(fontSize: 11)),
+                            const SizedBox(height: 4),
+                            Text(n['time'], style: const TextStyle(fontSize: 10, color: Colors.blueGrey)),
+                          ],
+                        ),
+                        isThreeLine: true,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +177,7 @@ class _AdminMainNavigationState extends State<AdminMainNavigation> {
             ),
             ListTile(
               leading: const Icon(Icons.radar),
-              title: const Text('SRK Faculty Presence Radar'),
+              title: const Text('SRK Faculty Presence Radar & 2D Map'),
               onTap: () {
                 setState(() => _selectedIndex = 0);
                 Navigator.pop(context);
@@ -110,6 +213,16 @@ class _AdminMainNavigationState extends State<AdminMainNavigation> {
               onTap: () {
                 setState(() => _selectedIndex = 4);
                 Navigator.pop(context);
+              },
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.notifications_active),
+              title: const Text('Principal Notifications'),
+              trailing: Badge(label: Text('${_adminNotifications.length}')),
+              onTap: () {
+                Navigator.pop(context);
+                _showAdminNotificationCenter();
               },
             ),
             const Divider(),
