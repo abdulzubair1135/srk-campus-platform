@@ -30,8 +30,8 @@ const startServer = async () => {
     // Keep event loop alive
     setInterval(() => {}, 60000);
 
-    // 5. Start Listening
-    server.listen(envConfig.port, () => {
+    // 5. Start Listening explicitly on 0.0.0.0 (all IPv4 and IPv6 interfaces)
+    server.listen(envConfig.port, '0.0.0.0', () => {
       logger.info(`===================================================`);
       logger.info(` Campus Presence & Coordination Platform Backend   `);
       logger.info(` Running in [${envConfig.nodeEnv}] mode on port ${envConfig.port} `);

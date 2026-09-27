@@ -9,6 +9,8 @@ const router = Router();
 router.use(authenticateJwt);
 router.use(requireRoles(UserRole.SUPER_ADMIN, UserRole.PRINCIPAL, UserRole.FACULTY));
 
+router.get('/overview', AnalyticsController.getAttendanceAnalytics);
+router.get('/presence', AnalyticsController.getPresenceDistribution);
 router.get('/attendance-rates', AnalyticsController.getAttendanceAnalytics);
 router.get('/presence-distribution', AnalyticsController.getPresenceDistribution);
 router.get('/room-occupancy', AnalyticsController.getRoomAnalytics);
