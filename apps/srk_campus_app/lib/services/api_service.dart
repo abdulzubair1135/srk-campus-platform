@@ -11,8 +11,9 @@ class ApiService {
 
   final List<String> _candidateBaseUrls = [
     'http://127.0.0.1:5000/api/v1/', // Local USB adb reverse (highest speed)
-    'http://10.0.2.2:5000/api/v1/', // Android emulator loopback
+    'https://srkcampus.loca.lt/api/v1/', // Localtunnel Custom Domain
     'https://loves-considerations-pensions-deutsch.trycloudflare.com/api/v1/', // Cloudflare Global Tunnel
+    'http://10.0.2.2:5000/api/v1/', // Android emulator loopback
     'http://localhost:5000/api/v1/',
   ];
 
