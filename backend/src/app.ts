@@ -54,8 +54,10 @@ export const createApp = (): Express => {
   // Request Telemetry & Real-Time Monitor
   app.use(telemetryMiddleware);
 
-  // API Routes
+  // API Routes (Mounted on /api/v1, /api, and root /)
   app.use(envConfig.apiPrefix, apiRoutes);
+  app.use('/api', apiRoutes);
+  app.use('/', apiRoutes);
 
   // Global Error Handler
   app.use(errorHandler);

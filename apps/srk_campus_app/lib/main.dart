@@ -10,6 +10,7 @@ import 'screens/main_shell_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalNotificationService().initialize();
+  SocketService().init();
   runApp(const ProviderScope(child: SRKCampusApp()));
 }
 

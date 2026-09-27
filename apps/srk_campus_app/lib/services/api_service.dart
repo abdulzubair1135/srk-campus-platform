@@ -10,18 +10,18 @@ class ApiService {
   String? _authToken;
 
   final List<String> _candidateBaseUrls = [
-    AppConstants.baseUrl, // Cloudflare
-    'http://127.0.0.1:5000/api/v1', // Local USB adb reverse
-    'http://10.0.2.2:5000/api/v1', // Android emulator loopback
-    'http://localhost:5000/api/v1',
+    'http://127.0.0.1:5000/api/v1/', // Local USB adb reverse (highest speed)
+    'http://10.0.2.2:5000/api/v1/', // Android emulator loopback
+    'https://loves-considerations-pensions-deutsch.trycloudflare.com/api/v1/', // Cloudflare Global Tunnel
+    'http://localhost:5000/api/v1/',
   ];
 
   ApiService._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: AppConstants.baseUrl,
-        connectTimeout: const Duration(seconds: 8),
-        receiveTimeout: const Duration(seconds: 8),
+        baseUrl: 'http://127.0.0.1:5000/api/v1/',
+        connectTimeout: const Duration(seconds: 6),
+        receiveTimeout: const Duration(seconds: 6),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -54,15 +54,16 @@ class ApiService {
     required String method,
     dynamic data,
   }) async {
+    final cleanPath = path.startsWith('/') ? path.substring(1) : path;
     DioException? lastError;
 
     for (final base in _candidateBaseUrls) {
       try {
         final client = Dio(
           BaseOptions(
-            baseUrl: base,
-            connectTimeout: const Duration(milliseconds: 3000),
-            receiveTimeout: const Duration(milliseconds: 3000),
+            baseUrl: base.endsWith('/') ? base : '$base/',
+            connectTimeout: const Duration(milliseconds: 4000),
+            receiveTimeout: const Duration(milliseconds: 4000),
             headers: {
               'Content-Type': 'application/json',
               'Accept': 'application/json',
@@ -72,11 +73,11 @@ class ApiService {
         );
 
         if (method == 'GET') {
-          return await client.get(path);
+          return await client.get(cleanPath);
         } else if (method == 'POST') {
-          return await client.post(path, data: data);
+          return await client.post(cleanPath, data: data);
         } else if (method == 'PATCH') {
-          return await client.patch(path, data: data);
+          return await client.patch(cleanPath, data: data);
         }
       } on DioException catch (e) {
         lastError = e;
