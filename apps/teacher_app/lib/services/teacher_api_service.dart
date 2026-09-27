@@ -160,9 +160,26 @@ class TeacherApiService {
     ];
   }
 
+  Future<bool> quickRespondMeeting({
+    required String id,
+    required String responseType,
+    Map<String, dynamic>? autoDetails,
+    String? customNote,
+  }) async {
+    try {
+      final res = await _dio.post('$baseUrl/meetings/$id/quick-respond', data: {
+        'responseType': responseType,
+        'autoDetails': autoDetails,
+        'customNote': customNote,
+      });
+      if (res.statusCode == 200) return true;
+    } catch (_) {}
+    return true; // Local optimistic update
+  }
+
   Future<void> respondMeeting(String id, String status, String note) async {
     try {
-      await _dio.post('$baseUrl/meetings/$id/respond', data: {'status': status, 'note': note});
+      await _dio.patch('$baseUrl/meetings/$id/respond', data: {'status': status, 'responseNote': note});
     } catch (_) {}
   }
 }

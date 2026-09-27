@@ -81,6 +81,15 @@ export class SocketManager {
   }
 
   /**
+   * Broadcasts to all connected clients
+   */
+  static broadcastAll(event: string, data: any): void {
+    if (this.io) {
+      this.io.emit(event, data);
+    }
+  }
+
+  /**
    * Broadcasts to a specific class session room
    */
   static emitToSession(sessionId: string, event: SocketEvent, data: any): void {

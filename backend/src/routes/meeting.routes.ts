@@ -11,7 +11,7 @@ router.use(authenticateJwt);
 
 router.get('/', MeetingController.getMeetings);
 
-// Principal creates meeting / call request
+// Principal creates meeting / urgent call request
 router.post(
   '/request',
   requireRoles(UserRole.PRINCIPAL, UserRole.SUPER_ADMIN),
@@ -19,7 +19,22 @@ router.post(
   MeetingController.requestMeeting
 );
 
-// Faculty responds
+router.post(
+  '/urgent-call',
+  requireRoles(UserRole.PRINCIPAL, UserRole.SUPER_ADMIN),
+  logAudit('DISPATCH_URGENT_CALL', 'MeetingRequest'),
+  MeetingController.requestMeeting
+);
+
+// Faculty quick responds (1-tap BUSY or ARRIVING)
+router.post(
+  '/:id/quick-respond',
+  requireRoles(UserRole.FACULTY, UserRole.SUPER_ADMIN),
+  logAudit('QUICK_RESPOND_MEETING', 'MeetingRequest'),
+  MeetingController.quickRespondMeeting
+);
+
+// Faculty standard responds
 router.patch(
   '/:id/respond',
   requireRoles(UserRole.FACULTY, UserRole.SUPER_ADMIN),

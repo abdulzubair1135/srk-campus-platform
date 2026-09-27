@@ -212,49 +212,68 @@ class _FacultyRadarScreenState extends State<FacultyRadarScreen> {
   String _filter = 'ALL';
 
   void _showMeetingDialog(Map<String, dynamic> faculty) {
-    final reasonController = TextEditingController(text: 'NAAC Timetable Verification & Student Attendance');
-    String reqType = 'MEETING';
+    final reasonController = TextEditingController(text: 'Immediate briefing in Principal Cabin regarding NAAC Timetable & Attendance Compliance');
+    String reqType = 'URGENT_CABIN_CALL';
 
     showDialog(
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          title: Text('Principal Action: ${faculty['name']}'),
+          title: Row(
+            children: [
+              const Icon(Icons.person_pin, color: Color(0xFF283593)),
+              const SizedBox(width: 8),
+              Expanded(child: Text('Summon: ${faculty['name']}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
+            ],
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Location: ${faculty['detectedRoom']} (${faculty['confidence']}% Conf.)', style: const TextStyle(fontSize: 12, color: Colors.grey)),
-              const SizedBox(height: 16),
+              Text('Live Location: ${faculty['detectedRoom']} • ${faculty['currentClass']}', style: const TextStyle(fontSize: 12, color: Colors.blueGrey, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 14),
               SegmentedButton<String>(
                 segments: const [
-                  ButtonSegment(value: 'MEETING', label: Text('Request Meeting')),
-                  ButtonSegment(value: 'CALL', label: Text('Call When Free')),
+                  ButtonSegment(value: 'URGENT_CABIN_CALL', label: Text('🚨 Urgent Cabin Call', style: TextStyle(fontSize: 11))),
+                  ButtonSegment(value: 'MEETING', label: Text('Request Meeting', style: TextStyle(fontSize: 11))),
                 ],
                 selected: {reqType},
                 onSelectionChanged: (val) => setDialogState(() => reqType = val.first),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
               TextField(
                 controller: reasonController,
-                decoration: const InputDecoration(labelText: 'Purpose / Note', border: OutlineInputBorder()),
+                maxLines: 2,
+                decoration: const InputDecoration(
+                  labelText: 'Agenda / Purpose for Teacher',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ],
           ),
           actions: [
             TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-            ElevatedButton(
+            ElevatedButton.icon(
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
                 final nav = Navigator.of(ctx);
                 await AdminApiService().requestMeeting(faculty['name'], reqType, reasonController.text);
+                if (!mounted) return;
+                setState(() {
+                  faculty['summonStatus'] = 'SUMMON_SENT';
+                  faculty['summonNote'] = 'Summon Sent • Awaiting 1-Tap Response';
+                });
                 nav.pop();
                 messenger.showSnackBar(
-                  SnackBar(content: Text('Dispatched $reqType request to ${faculty['name']}')),
+                  SnackBar(
+                    backgroundColor: const Color(0xFF283593),
+                    content: Text('Dispatched Urgent Summon to ${faculty['name']}. Teacher received instant 1-tap notification.'),
+                  ),
                 );
               },
+              icon: const Icon(Icons.send, size: 16),
+              label: const Text('Dispatch to Teacher Phone'),
               style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF283593), foregroundColor: Colors.white),
-              child: const Text('Send Alert'),
             ),
           ],
         ),

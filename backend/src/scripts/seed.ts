@@ -188,24 +188,30 @@ export const seedDatabase = async (): Promise<void> => {
   ];
 
   for (const s of studentSeedData) {
-    const user = await User.create({
-      name: s.name,
-      email: s.email,
-      passwordHash: 'Student@123',
-      role: UserRole.STUDENT,
-      departmentId: s.deptId,
-      isActive: true
-    });
+    let user = await User.findOne({ email: s.email });
+    if (!user) {
+      user = await User.create({
+        name: s.name,
+        email: s.email,
+        passwordHash: 'Student@123',
+        role: UserRole.STUDENT,
+        departmentId: s.deptId,
+        isActive: true
+      });
+    }
 
-    await Student.create({
-      userId: user._id,
-      enrollmentNo: s.enroll,
-      departmentId: s.deptId,
-      semester: s.sem,
-      division: s.div,
-      academicYear: '2026-2027',
-      status: 'ACTIVE'
-    });
+    let stu = await Student.findOne({ enrollmentNo: s.enroll });
+    if (!stu) {
+      await Student.create({
+        userId: user._id,
+        enrollmentNo: s.enroll,
+        departmentId: s.deptId,
+        semester: s.sem,
+        division: s.div,
+        academicYear: '2026-2027',
+        status: 'ACTIVE'
+      });
+    }
   }
 
   logger.info('Seeding Timetable with Exact Lecture Halls (LH 1 to 10)...');
