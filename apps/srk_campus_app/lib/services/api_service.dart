@@ -10,17 +10,17 @@ class ApiService {
   String? _authToken;
 
   final List<String> _candidateBaseUrls = [
-    'http://127.0.0.1:5000/api/v1/', // Local USB adb reverse (highest speed)
-    'https://posts-ease-der-similarly.trycloudflare.com/api/v1/', // Cloudflare Global Tunnel
-    'https://srkcampus.loca.lt/api/v1/', // Localtunnel Custom Domain
-    'http://10.0.2.2:5000/api/v1/', // Android emulator loopback
-    'http://localhost:5000/api/v1/',
+    'http://127.0.0.1:5001/api/v1/', // Local USB adb reverse port 5001
+    'http://127.0.0.1:5000/api/v1/', // Local USB adb reverse port 5000
+    'https://counting-criterion-identifies-implied.trycloudflare.com/api/v1/', // Cloudflare Global Tunnel
+    'http://10.0.2.2:5001/api/v1/', // Android emulator loopback
+    'http://localhost:5001/api/v1/',
   ];
 
   ApiService._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://127.0.0.1:5000/api/v1/',
+        baseUrl: 'http://127.0.0.1:5001/api/v1/',
         connectTimeout: const Duration(seconds: 6),
         receiveTimeout: const Duration(seconds: 6),
         headers: {

@@ -2,8 +2,8 @@ class AppConstants {
   static const String appName = "SRK Campus";
   static const String institutionName = "SRK Institute of Management & Computer Education";
   
-  // Public Live Cloudflare Tunnel URL (Global HTTPS & WSS)
-  static const String cloudflareTunnelUrl = 'https://posts-ease-der-similarly.trycloudflare.com';
+  // Public Live Cloudflare Tunnel URL (Global HTTPS & WSS for Port 5001)
+  static const String cloudflareTunnelUrl = 'https://counting-criterion-identifies-implied.trycloudflare.com';
 
   static String get baseUrl {
     return '$cloudflareTunnelUrl/api/v1';

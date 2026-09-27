@@ -13,11 +13,11 @@ class SocketService {
   final Map<String, List<SocketCallback>> _listeners = {};
 
   final List<String> _candidateSocketUrls = [
+    'http://127.0.0.1:5001',
     'http://127.0.0.1:5000',
-    'https://posts-ease-der-similarly.trycloudflare.com',
-    'https://srkcampus.loca.lt',
-    'http://10.0.2.2:5000',
-    'http://localhost:5000',
+    'https://counting-criterion-identifies-implied.trycloudflare.com',
+    'http://10.0.2.2:5001',
+    'http://localhost:5001',
   ];
 
   SocketService._internal();
