@@ -7,15 +7,55 @@ import { Faculty } from '../models/Faculty';
 import { UserRole } from '../constants/enums';
 
 export class AuthController {
-  static async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async getUids(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { email, password, deviceId } = req.body;
-      if (!email || !password) {
-        ResponseUtil.error(res, 'Email and password are required', 400);
+      const uids = AuthService.getAuthorizedUids();
+      ResponseUtil.success(res, uids, 'Authorized campus UIDs retrieved');
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  static async sendOtp(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { identifier } = req.body;
+      if (!identifier) {
+        ResponseUtil.error(res, 'UID or Email/Phone is required', 400);
+        return;
+      }
+      const otp = AuthService.generateOtp(identifier);
+      ResponseUtil.success(res, { otp, message: `OTP sent successfully to ${identifier}` }, 'OTP generated');
+    } catch (error: any) {
+      next(error);
+    }
+  }
+
+  static async signupWithUid(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { uid, email, phone, password, otp } = req.body;
+      if (!uid || !email || !password || !otp) {
+        ResponseUtil.error(res, 'UID, email, password, and OTP are required', 400);
         return;
       }
 
-      const result = await AuthService.login(email, password, deviceId);
+      const result = await AuthService.signupWithUid({ uid, email, phone, password, otp });
+      ResponseUtil.success(res, result, 'Registration and activation successful', 201);
+    } catch (error: any) {
+      ResponseUtil.error(res, error.message || 'Registration failed', 400);
+    }
+  }
+
+  static async login(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { email, uid, identifier, password, deviceId } = req.body;
+      const loginId = identifier || uid || email;
+
+      if (!loginId || !password) {
+        ResponseUtil.error(res, 'UID/Email and password are required', 400);
+        return;
+      }
+
+      const result = await AuthService.login(loginId, password, deviceId);
       ResponseUtil.success(res, result, 'Login successful');
     } catch (error: any) {
       ResponseUtil.error(res, error.message || 'Login failed', 401);

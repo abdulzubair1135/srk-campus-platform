@@ -4,12 +4,16 @@ import { UserRole } from '../constants/enums';
 
 export interface IUser extends Document {
   _id: mongoose.Types.ObjectId;
+  uid?: string;
   name: string;
   email: string;
   phone?: string;
   passwordHash: string;
   role: UserRole;
   departmentId?: mongoose.Types.ObjectId;
+  designation?: string;
+  cabinNumber?: string;
+  rollNumber?: string;
   isActive: boolean;
   avatarUrl?: string;
   refreshTokenHash?: string;
@@ -20,12 +24,16 @@ export interface IUser extends Document {
 
 const UserSchema = new Schema<IUser>(
   {
+    uid: { type: String, unique: true, sparse: true, trim: true, uppercase: true, index: true },
     name: { type: String, required: true, trim: true, index: true },
     email: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
     phone: { type: String, trim: true },
     passwordHash: { type: String, required: true, select: false },
     role: { type: String, enum: Object.values(UserRole), required: true, index: true },
     departmentId: { type: Schema.Types.ObjectId, ref: 'Department', index: true },
+    designation: { type: String, trim: true },
+    cabinNumber: { type: String, trim: true },
+    rollNumber: { type: String, trim: true },
     isActive: { type: Boolean, default: true, index: true },
     avatarUrl: { type: String },
     refreshTokenHash: { type: String, select: false }
