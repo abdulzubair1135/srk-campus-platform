@@ -16,13 +16,7 @@ export const createApp = (): Express => {
   // CORS configuration
   app.use(
     cors({
-      origin: (origin, callback) => {
-        if (!origin || envConfig.clientUrls.includes(origin) || envConfig.nodeEnv === 'development') {
-          callback(null, true);
-        } else {
-          callback(new Error('CORS blocked by origin policy'));
-        }
-      },
+      origin: true,
       credentials: true
     })
   );

@@ -7,6 +7,40 @@ import { UserRole } from '../constants/enums';
 
 const router = Router();
 
+router.post('/test-summon-push', async (req, res) => {
+  const { FCMService } = await import('../services/fcm.service');
+  const { SocketManager } = await import('../sockets/socket.manager');
+
+  const payload = {
+    id: `urgent_${Date.now()}`,
+    type: 'URGENT_CABIN_CALL',
+    callerName: 'Dr. Nirdesh Buch (Principal)',
+    location: 'Principal Cabin P-01',
+    reason: 'Emergency Academic Coordination & Committee Review',
+    timestamp: new Date().toLocaleTimeString(),
+    priority: 'URGENT'
+  };
+
+  // Broadcast via Socket.IO
+  SocketManager.broadcastAll('meeting.new', payload);
+  SocketManager.broadcastAll('radar.updated', { event: 'URGENT_SUMMON_DISPATCHED', payload });
+
+  // Broadcast via FCM
+  await FCMService.sendUrgentSummonNotification({
+    facultyName: 'Prof. Nirali Thakkar',
+    callerName: 'Dr. Nirdesh Buch (Principal)',
+    location: 'Principal Cabin P-01',
+    meetingId: payload.id,
+    reason: payload.reason,
+  });
+
+  res.json({
+    success: true,
+    message: '🚨 Principal Urgent Summon push notification successfully dispatched!',
+    data: payload
+  });
+});
+
 router.use(authenticateJwt);
 
 router.get('/', MeetingController.getMeetings);
