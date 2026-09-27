@@ -4,6 +4,7 @@ import '../../core/theme.dart';
 import '../../core/constants.dart';
 import '../../providers/auth_provider.dart';
 import '../../services/api_service.dart';
+import '../control_panel_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -291,6 +292,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  // Top Action Bar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton.icon(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                        ),
+                        icon: const Icon(Icons.tune_rounded, size: 16, color: AppTheme.primaryNavy),
+                        label: const Text('🛠️ Control Panel', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primaryNavy)),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const ControlPanelScreen()),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+
                   // Clean Logo & Institution Header
                   Center(
                     child: Container(

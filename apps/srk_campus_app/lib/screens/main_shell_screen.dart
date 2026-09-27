@@ -9,6 +9,7 @@ import 'teacher/attendance_generator_view.dart';
 import 'student/student_home_view.dart';
 import 'student/qr_scanner_view.dart';
 import 'student/faculty_locator_view.dart';
+import 'control_panel_screen.dart';
 
 class MainShellScreen extends ConsumerStatefulWidget {
   const MainShellScreen({super.key});
@@ -174,6 +175,14 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            tooltip: '🛠️ Control Panel',
+            icon: const Icon(Icons.tune_rounded, color: Colors.white),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ControlPanelScreen()),
+            ),
+          ),
           IconButton(
             tooltip: 'Switch Role',
             icon: const Icon(Icons.swap_horiz_rounded, color: AppTheme.accentGold),
