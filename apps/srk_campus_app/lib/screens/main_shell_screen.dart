@@ -9,6 +9,8 @@ import 'teacher/attendance_generator_view.dart';
 import 'student/student_home_view.dart';
 import 'student/qr_scanner_view.dart';
 import 'student/faculty_locator_view.dart';
+import 'chat/campus_chat_screen.dart';
+import 'settings/app_settings_sheet.dart';
 import 'control_panel_screen.dart';
 
 class MainShellScreen extends ConsumerStatefulWidget {
@@ -87,6 +89,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
       screens = [
         const FacultyRadarView(),
         const FacultyLocatorView(),
+        const CampusChatScreen(),
       ];
       navItems = const [
         BottomNavigationBarItem(
@@ -97,26 +100,36 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           icon: Icon(Icons.location_city_rounded),
           label: 'Campus Cabins',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_bubble_rounded),
+          label: 'Messages',
+        ),
       ];
     } else if (user?.isTeacher == true) {
       screens = [
         const PrincipalSummonView(),
         const AttendanceGeneratorView(),
+        const CampusChatScreen(),
       ];
       navItems = const [
         BottomNavigationBarItem(
           icon: Icon(Icons.notifications_active_rounded),
-          label: '🚨 Principal Summon',
+          label: '🚨 Summons',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.qr_code_rounded),
-          label: 'QR Attendance',
+          label: 'Attendance',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_bubble_rounded),
+          label: 'Messages',
         ),
       ];
     } else {
       screens = [
         const StudentHomeView(),
         const QrScannerView(),
+        const CampusChatScreen(),
         const FacultyLocatorView(),
       ];
       navItems = const [
@@ -127,6 +140,10 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         BottomNavigationBarItem(
           icon: Icon(Icons.qr_code_scanner_rounded),
           label: 'Attendance',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.chat_bubble_rounded),
+          label: 'Messages',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.people_alt_rounded),
@@ -176,6 +193,11 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
         ),
         actions: [
           IconButton(
+            tooltip: '📤 Share App & Settings',
+            icon: const Icon(Icons.share_rounded, color: AppTheme.accentGold),
+            onPressed: () => AppSettingsSheet.show(context),
+          ),
+          IconButton(
             tooltip: '🛠️ Control Panel',
             icon: const Icon(Icons.tune_rounded, color: Colors.white),
             onPressed: () => Navigator.push(
@@ -185,7 +207,7 @@ class _MainShellScreenState extends ConsumerState<MainShellScreen> {
           ),
           IconButton(
             tooltip: 'Switch Role',
-            icon: const Icon(Icons.swap_horiz_rounded, color: AppTheme.accentGold),
+            icon: const Icon(Icons.swap_horiz_rounded, color: Colors.white70),
             onPressed: _showRoleSwitcherDialog,
           ),
           IconButton(

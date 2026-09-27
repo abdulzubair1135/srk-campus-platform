@@ -134,6 +134,29 @@ export class SocketManager {
         SocketManager.broadcastAll('campus_broadcast_message', data);
       });
 
+      // Handle Campus Direct Messaging
+      socket.on('campus_direct_message', async (data: any) => {
+        logger.info(`Campus Direct Message from ${data.fromName || data.fromUid} to ${data.toUid}:`, data.message);
+        
+        const { TelemetryService } = await import('../services/telemetry.service');
+        TelemetryService.logNotification({
+          type: 'CAMPUS_BROADCAST',
+          targetUid: data.toUid,
+          title: `💬 Message from ${data.fromName || data.fromUid}`,
+          body: data.message || '',
+          channel: 'SOCKET_IO',
+          status: 'DELIVERED',
+          metadata: data
+        });
+
+        // Broadcast to specific recipient room and campus bus
+        if (data.toUid) {
+          socket.to(`user:${data.toUid}`).emit('campus_direct_message', data);
+        }
+        socket.to('campus_broadcast').emit('campus_direct_message', data);
+        SocketManager.broadcastAll('campus_direct_message', data);
+      });
+
       // Join class session room
       socket.on('join:session', (sessionId: string) => {
         socket.join(`session:${sessionId}`);
