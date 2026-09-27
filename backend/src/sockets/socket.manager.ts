@@ -18,11 +18,17 @@ export class SocketManager {
       pingInterval: 25000
     });
 
-    // Authenticate socket connections with JWT
+    // Authenticate socket connections with JWT or allow Dashboard Observer
     this.io.use((socket: Socket, next) => {
-      const token = socket.handshake.auth.token || socket.handshake.headers['authorization']?.replace('Bearer ', '');
+      const token = socket.handshake.auth?.token || socket.handshake.headers['authorization']?.replace('Bearer ', '');
       if (!token) {
-        return next(new Error('Authentication token required'));
+        // Allow unauthenticated Dashboard and Observer connections
+        (socket as any).user = {
+          sub: `observer_${socket.id.substring(0, 6)}`,
+          role: 'DASHBOARD_OBSERVER',
+          name: 'Campus Control Panel'
+        };
+        return next();
       }
 
       try {
@@ -30,7 +36,13 @@ export class SocketManager {
         (socket as any).user = payload;
         next();
       } catch (err) {
-        next(new Error('Invalid socket authentication token'));
+        // Fallback to dashboard observer if token invalid
+        (socket as any).user = {
+          sub: `observer_${socket.id.substring(0, 6)}`,
+          role: 'DASHBOARD_OBSERVER',
+          name: 'Campus Control Panel'
+        };
+        next();
       }
     });
 
@@ -52,6 +64,75 @@ export class SocketManager {
       if (user?.departmentId) {
         socket.join(`department:${user.departmentId}`);
       }
+
+      // Join campus broadcast & principal rooms
+      socket.join('campus_broadcast');
+      socket.join('principal_channel');
+
+      // Join room event
+      socket.on('join_room', (data: { room: string }) => {
+        if (data?.room) {
+          socket.join(data.room);
+          logger.debug(`Socket ${socket.id} joined room: ${data.room}`);
+        }
+      });
+
+      // Handle Teacher 1-Tap Quick Response (🔴 BUSY / 🟢 ON THE WAY)
+      socket.on('urgent_summon_response', async (data: any) => {
+        logger.info(`Teacher Summon Response received:`, data);
+        
+        // Import TelemetryService dynamically
+        const { TelemetryService } = await import('../services/telemetry.service');
+        TelemetryService.logNotification({
+          type: 'TEACHER_RESPONSE',
+          targetUid: data.facultyUid || data.facultyName || 'FACULTY',
+          title: `Teacher Response: ${data.status}`,
+          body: `Faculty ${data.facultyUid || ''} responded: ${data.status} (ETA: ${data.eta || 'N/A'})`,
+          room: data.room || 'Principal Cabin',
+          channel: 'SOCKET_IO',
+          status: 'ACKNOWLEDGED',
+          metadata: data
+        });
+
+        // Broadcast to all observers and principal cabins
+        socket.to('principal_channel').emit('urgent_summon_response', data);
+        socket.to('campus_broadcast').emit('urgent_summon_response', data);
+        SocketManager.broadcastAll('urgent_summon_response', data);
+      });
+
+      // Handle Dispatch from Control Panel
+      socket.on('urgent_summon_trigger', async (data: any) => {
+        logger.info(`Urgent Summon Triggered:`, data);
+        const { TelemetryService } = await import('../services/telemetry.service');
+        TelemetryService.logNotification({
+          type: 'URGENT_SUMMON',
+          targetUid: data.targetFacultyUid,
+          title: '🚨 Principal Urgent Summon',
+          body: `Summoned to ${data.room}. Reason: ${data.reason}`,
+          room: data.room,
+          channel: 'HYBRID',
+          status: 'DELIVERED',
+          metadata: data
+        });
+
+        SocketManager.broadcastAll('urgent_summon_alert', data);
+        SocketManager.broadcastAll('meeting.new', data);
+      });
+
+      // Handle Campus Broadcast
+      socket.on('campus_broadcast', async (data: any) => {
+        const { TelemetryService } = await import('../services/telemetry.service');
+        TelemetryService.logNotification({
+          type: 'CAMPUS_BROADCAST',
+          title: data.title || 'Campus Broadcast',
+          body: data.message || '',
+          channel: 'HYBRID',
+          status: 'DELIVERED',
+          metadata: data
+        });
+
+        SocketManager.broadcastAll('campus_broadcast_message', data);
+      });
 
       // Join class session room
       socket.on('join:session', (sessionId: string) => {

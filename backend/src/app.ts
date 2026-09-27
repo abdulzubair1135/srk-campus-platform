@@ -8,6 +8,7 @@ import { errorHandler } from './middleware/error.middleware';
 import { standardRateLimiter } from './middleware/rateLimiter.middleware';
 
 import path from 'path';
+import { telemetryMiddleware } from './middleware/telemetry.middleware';
 
 export const createApp = (): Express => {
   const app = express();
@@ -49,6 +50,9 @@ export const createApp = (): Express => {
 
   // Global Rate Limiting
   app.use(standardRateLimiter);
+
+  // Request Telemetry & Real-Time Monitor
+  app.use(telemetryMiddleware);
 
   // API Routes
   app.use(envConfig.apiPrefix, apiRoutes);

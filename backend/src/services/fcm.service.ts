@@ -2,6 +2,8 @@ import { initializeApp, cert, getApps, App } from 'firebase-admin/app';
 import { getMessaging, Message } from 'firebase-admin/messaging';
 import { logger } from '../utils/logger';
 
+import { TelemetryService } from './telemetry.service';
+
 export class FCMService {
   private static app: App | null = null;
   private static isInitialized = false;
@@ -33,14 +35,26 @@ export class FCMService {
   static async sendUrgentSummonNotification(params: {
     deviceToken?: string;
     facultyName: string;
+    targetUid?: string;
     callerName: string;
     location: string;
     meetingId: string;
     reason: string;
   }): Promise<boolean> {
-    const { deviceToken, facultyName, callerName, location, meetingId, reason } = params;
+    const { deviceToken, facultyName, targetUid, callerName, location, meetingId, reason } = params;
 
     logger.info(`[FCM Push] Dispatched Urgent Summon to ${facultyName} (${location})`);
+
+    TelemetryService.logNotification({
+      type: 'URGENT_SUMMON',
+      targetUid: targetUid || facultyName,
+      title: '🚨 URGENT: Principal Cabin Summon',
+      body: `${callerName} summoned you to ${location}. Reason: ${reason}`,
+      room: location,
+      channel: 'HYBRID',
+      status: 'DELIVERED',
+      metadata: { meetingId, callerName }
+    });
 
     if (this.isInitialized && this.app && deviceToken && deviceToken.length > 10) {
       try {
