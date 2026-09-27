@@ -33,7 +33,7 @@ class _QrScannerViewState extends ConsumerState<QrScannerView> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppTheme.statusGreen,
-          content: Text('✅ Attendance marked successfully in Lecture Hall 03!'),
+          content: Text('Attendance marked successfully in Lecture Hall 03.'),
         ),
       );
     }

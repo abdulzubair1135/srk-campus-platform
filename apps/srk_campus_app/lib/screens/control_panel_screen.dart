@@ -41,7 +41,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
     setState(() => _isTestingNotification = true);
 
     await LocalNotificationService().showNotification(
-      title: '🚨 PRINCIPAL URGENT SUMMON ALERT',
+      title: 'PRINCIPAL URGENT SUMMON ALERT',
       body: 'Dr. Nirdesh Buch (Principal) has summoned you to Principal Cabin P-01.\nTap to respond: [BUSY / ON THE WAY]',
       isUrgent: true,
     );
@@ -51,7 +51,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppTheme.statusGreen,
-          content: Text('✅ Native Status Bar Notification fired onto your phone screen!'),
+          content: Text('Native Status Bar Notification fired onto your phone screen!'),
         ),
       );
     }
@@ -63,7 +63,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
 
     // 1. Show native notification
     await LocalNotificationService().showNotification(
-      title: '🚨 URGENT: Principal Cabin Summon',
+      title: 'URGENT: Principal Cabin Summon',
       body: 'Dr. Nirdesh Buch has called you to Principal Cabin P-01. Please respond immediately.',
       isUrgent: true,
     );
@@ -80,7 +80,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppTheme.statusRed,
-          content: Text('🚨 Urgent Summon dispatched across WebSockets & Native Notification!'),
+          content: Text('Urgent Summon dispatched across WebSockets & Native Notification!'),
         ),
       );
     }
@@ -89,7 +89,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
   // Dispatch Campus SOS Broadcast
   Future<void> _fireCampusBroadcastTest() async {
     await LocalNotificationService().showNotification(
-      title: '📢 CAMPUS BROADCAST: Schedule Update',
+      title: 'CAMPUS BROADCAST: Schedule Update',
       body: 'All BCA Sem 3 afternoon lectures shifted to LH-05 for Academic Workshop.',
       isUrgent: false,
     );
@@ -98,7 +98,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppTheme.secondaryNavy,
-          content: Text('📢 Campus Announcement broadcast notification fired!'),
+          content: Text('Campus Announcement broadcast notification fired!'),
         ),
       );
     }
@@ -109,7 +109,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
     return Scaffold(
       backgroundColor: AppTheme.bgCream,
       appBar: AppBar(
-        title: const Text('🛠️ Campus Control Panel & Testing'),
+        title: const Text('Campus Control Panel & Audit Center'),
         centerTitle: true,
       ),
       body: ListView(
@@ -150,7 +150,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
           ),
           const SizedBox(height: 16),
 
-          // 🔔 Push & Native Notification Testing Section
+          // Push & Native Notification Testing Section
           const Text(
             'PUSH NOTIFICATION & ALERT TEST SUITE',
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1, color: AppTheme.textMuted),
@@ -181,7 +181,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
                       icon: const Icon(Icons.notifications_active_rounded, size: 18),
                       label: _isTestingNotification
                           ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                          : const Text('⚡ Fire Test Notification Now'),
+                          : const Text('Fire Test Notification Now'),
                       onPressed: _isTestingNotification ? null : _fireNativeNotificationTest,
                     ),
                   ),
@@ -215,7 +215,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
                       icon: const Icon(Icons.campaign_rounded, size: 18),
                       label: _isSendingSummon
                           ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                          : const Text('🚨 Dispatch Urgent Summon Alert'),
+                          : const Text('Dispatch Urgent Summon Alert'),
                       onPressed: _isSendingSummon ? null : _firePrincipalSummonTest,
                     ),
                   ),
@@ -247,7 +247,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(backgroundColor: AppTheme.secondaryNavy),
                       icon: const Icon(Icons.announcement_rounded, size: 18),
-                      label: const Text('📢 Dispatch Campus Broadcast'),
+                      label: const Text('Dispatch Campus Broadcast'),
                       onPressed: _fireCampusBroadcastTest,
                     ),
                   ),
@@ -257,7 +257,7 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
           ),
           const SizedBox(height: 16),
 
-          // ⚡ 1-Tap Quick Switch Role Section
+          // 1-Tap Quick Switch Role Section
           const Text(
             '1-TAP ROLE SWITCHER & AUTH TESTING',
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, letterSpacing: 1, color: AppTheme.textMuted),
@@ -268,10 +268,10 @@ class _ControlPanelScreenState extends ConsumerState<ControlPanelScreen> {
             spacing: 8,
             runSpacing: 8,
             children: [
-              _buildRoleButton('principal', '👑 Principal (Dr. Nirdesh Buch)', Colors.purple),
-              _buildRoleButton('campus_head', '🏛️ Campus Head (Prof. Surbhi Ahir)', AppTheme.secondaryNavy),
-              _buildRoleButton('teacher_nirali', '👨‍🏫 Teacher (Prof. Nirali Thakkar)', AppTheme.accentGold),
-              _buildRoleButton('student_rahul', '🎓 Student (Rahul Shah - BCA 3)', AppTheme.statusGreen),
+              _buildRoleButton('principal', 'Principal (Dr. Nirdesh Buch)', Colors.purple),
+              _buildRoleButton('campus_head', 'Campus Head (Prof. Surbhi Ahir)', AppTheme.secondaryNavy),
+              _buildRoleButton('teacher_nirali', 'Teacher (Prof. Nirali Thakkar)', AppTheme.accentGold),
+              _buildRoleButton('student_rahul', 'Student (Rahul Shah - BCA 3)', AppTheme.statusGreen),
             ],
           ),
         ],

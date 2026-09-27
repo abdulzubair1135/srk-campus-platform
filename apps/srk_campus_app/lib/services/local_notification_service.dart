@@ -31,7 +31,7 @@ class LocalNotificationService {
       // Create High-Priority Notification Channel
       const AndroidNotificationChannel channel = AndroidNotificationChannel(
         'srk_urgent_summon_channel',
-        '🚨 Principal Urgent Summon Alerts',
+        'Principal Urgent Summon Alerts',
         description: 'High-priority notifications for cabin summons and emergency broadcasts',
         importance: Importance.max,
         playSound: true,
@@ -54,7 +54,7 @@ class LocalNotificationService {
 
     final androidDetails = AndroidNotificationDetails(
       'srk_urgent_summon_channel',
-      '🚨 Principal Urgent Summon Alerts',
+      'Principal Urgent Summon Alerts',
       channelDescription: 'High-priority notifications for cabin summons',
       importance: Importance.max,
       priority: Priority.high,

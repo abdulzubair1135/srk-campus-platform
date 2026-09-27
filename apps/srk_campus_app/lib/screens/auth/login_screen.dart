@@ -4,6 +4,7 @@ import '../../core/theme.dart';
 import '../../core/constants.dart';
 import '../../providers/auth_provider.dart';
 import '../../services/api_service.dart';
+import '../../widgets/institutional_logo.dart';
 import '../control_panel_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -106,7 +107,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppTheme.statusGreen,
-          content: Text('⚡ Verification OTP sent: $_generatedOtpPreview (Auto-filled)'),
+          content: Text('Verification OTP sent: $_generatedOtpPreview (Auto-filled)'),
         ),
       );
     }
@@ -299,11 +300,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       TextButton.icon(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Colors.grey.shade300)),
+                          elevation: 1,
                         ),
-                        icon: const Icon(Icons.tune_rounded, size: 16, color: AppTheme.primaryNavy),
-                        label: const Text('🛠️ Control Panel', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primaryNavy)),
+                        icon: const Icon(Icons.dashboard_customize_outlined, size: 16, color: AppTheme.primaryNavy),
+                        label: const Text('Audit Control', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primaryNavy)),
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(builder: (_) => const ControlPanelScreen()),
@@ -311,50 +313,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-
-                  // Clean Logo & Institution Header
-                  Center(
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [AppTheme.primaryNavy, AppTheme.secondaryNavy],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppTheme.primaryNavy.withOpacity(0.25),
-                            blurRadius: 16,
-                            offset: const Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: const Icon(
-                        Icons.account_balance_rounded,
-                        color: AppTheme.accentGold,
-                        size: 34,
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: 12),
-                  const Text(
-                    'SRK CAMPUS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      letterSpacing: 2,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
-                      color: AppTheme.primaryNavy,
+
+                  // Clean Institutional Animated Logo & Monogram Header
+                  const Center(
+                    child: InstitutionalLogo(
+                      size: 68,
+                      animate: true,
+                      variant: LogoVariant.classicNavyGold,
+                      showText: true,
+                      title: 'SRK CAMPUS',
+                      subtitle: 'Unified Institutional Intelligence Portal',
                     ),
-                  ),
-                  Text(
-                    'Unified Multi-Role Institutional Portal',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 20),
 
@@ -374,7 +344,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                         borderRadius: BorderRadius.circular(25),
                         boxShadow: [
                           BoxShadow(
-                            color: AppTheme.primaryNavy.withOpacity(0.2),
+                            color: AppTheme.primaryNavy.withOpacity(0.25),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
@@ -384,8 +354,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       unselectedLabelColor: Colors.grey.shade700,
                       labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                       tabs: const [
-                        Tab(text: '🔑 Sign In'),
-                        Tab(text: '📝 UID Sign Up & OTP'),
+                        Tab(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.lock_outline_rounded, size: 15),
+                              SizedBox(width: 6),
+                              Text('Sign In'),
+                            ],
+                          ),
+                        ),
+                        Tab(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.how_to_reg_outlined, size: 15),
+                              SizedBox(width: 6),
+                              Text('Sign Up & OTP'),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -428,7 +416,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                       children: [
                         Row(
                           children: [
-                            const Icon(Icons.flash_on_rounded, color: AppTheme.accentGold, size: 16),
+                            const Icon(Icons.verified_user_outlined, color: AppTheme.accentGold, size: 16),
                             const SizedBox(width: 6),
                             Text(
                               'Instant 1-Tap Role Demo Switcher',
@@ -445,13 +433,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              _buildRoleChip('principal', '👑 Principal', Colors.purple),
+                              _buildRoleChip('principal', 'Principal', Icons.shield_outlined, Colors.purple),
                               const SizedBox(width: 8),
-                              _buildRoleChip('campus_head', '🏛️ Campus Head', AppTheme.secondaryNavy),
+                              _buildRoleChip('campus_head', 'Campus Head', Icons.account_balance_outlined, AppTheme.secondaryNavy),
                               const SizedBox(width: 8),
-                              _buildRoleChip('teacher_nirali', '👨‍🏫 Teacher Nirali', AppTheme.accentGold),
+                              _buildRoleChip('teacher_nirali', 'Teacher Nirali', Icons.school_outlined, AppTheme.accentGold),
                               const SizedBox(width: 8),
-                              _buildRoleChip('student_rahul', '🎓 Student Rahul', AppTheme.statusGreen),
+                              _buildRoleChip('student_rahul', 'Student Rahul', Icons.person_outline, AppTheme.statusGreen),
                             ],
                           ),
                         ),
@@ -656,7 +644,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                   child: _isSendingOtp
                       ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
                       : Text(
-                          _otpSent ? '✓ Resend' : 'Send OTP',
+                          _otpSent ? 'Resend' : 'Send OTP',
                           style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                         ),
                 ),
@@ -730,12 +718,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
     );
   }
 
-  Widget _buildRoleChip(String accountKey, String label, Color color) {
+  Widget _buildRoleChip(String accountKey, String label, IconData icon, Color color) {
     return ActionChip(
-      avatar: CircleAvatar(backgroundColor: color, radius: 5),
-      label: Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-      backgroundColor: color.withOpacity(0.08),
-      side: BorderSide(color: color.withOpacity(0.3)),
+      avatar: Icon(icon, size: 14, color: color),
+      label: Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey.shade800)),
+      backgroundColor: Colors.white,
+      side: BorderSide(color: Colors.grey.shade300),
+      elevation: 0.5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       onPressed: () => _onQuickLogin(accountKey),
     );

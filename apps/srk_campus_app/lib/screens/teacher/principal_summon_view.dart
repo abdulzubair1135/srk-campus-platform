@@ -88,7 +88,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppTheme.primaryNavy,
-          content: Text('🔴 Class status auto-transmitted to Principal Dr. Nirdesh Buch!'),
+          content: Text('Class status auto-transmitted to Principal Dr. Nirdesh Buch.'),
         ),
       );
     }
@@ -113,7 +113,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppTheme.statusGreen,
-          content: Text('🟢 Notified Principal: You are on the way (ETA 2 mins)!'),
+          content: Text('Notified Principal: You are on the way (ETA 2 mins).'),
         ),
       );
     }
@@ -205,11 +205,11 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
                     ),
                     child: const Row(
                       children: [
-                        Icon(Icons.campaign_rounded, color: Colors.white, size: 22),
+                        Icon(Icons.warning_amber_rounded, color: Colors.white, size: 22),
                         SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            '🚨 URGENT CABIN SUMMON FROM PRINCIPAL',
+                            'URGENT CABIN SUMMON FROM PRINCIPAL',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w900,
@@ -263,7 +263,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
                         const SizedBox(height: 16),
 
                         const Text(
-                          '⚡ 1-TAP ZERO-TYPING RESPONSE (NO TYPING REQUIRED):',
+                          '1-TAP RAPID RESPONSE (NO TYPING REQUIRED):',
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w800,
@@ -289,7 +289,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    '✅ "BUSY IN CLASS" details transmitted to Principal.\n(LH-03 • Web Dev • 58 Students)',
+                                    '"BUSY IN CLASS" details transmitted to Principal.\n(LH-03 • Web Dev • 58 Students)',
                                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.statusRed),
                                   ),
                                 ),
@@ -310,7 +310,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
                                 SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    '✅ "ON THE WAY" notification sent to Principal.\nETA ~2 mins.',
+                                    '"ON THE WAY" notification sent to Principal.\nETA ~2 mins.',
                                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.statusGreen),
                                   ),
                                 ),
@@ -329,7 +329,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
                                   ),
                                   icon: const Icon(Icons.cancel_rounded, size: 18),
                                   label: const Text(
-                                    '🔴 BUSY in Class',
+                                    'BUSY in Class',
                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                   ),
                                   onPressed: _respondBusy,
@@ -345,7 +345,7 @@ class _PrincipalSummonViewState extends ConsumerState<PrincipalSummonView> {
                                   ),
                                   icon: const Icon(Icons.directions_walk_rounded, size: 18),
                                   label: const Text(
-                                    '🟢 ON THE WAY',
+                                    'ON THE WAY',
                                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
                                   ),
                                   onPressed: _respondArriving,

@@ -18,7 +18,7 @@ class CampusNotificationService {
   }) {
     _notificationStreamController.add({
       'type': 'URGENT_CABIN_CALL',
-      'title': '🚨 URGENT: Principal Cabin Summon',
+      'title': 'URGENT: Principal Cabin Summon',
       'body': '$callerName has summoned you to $location.',
       'caller': callerName,
       'location': location,
@@ -34,7 +34,7 @@ class CampusNotificationService {
   }) {
     _notificationStreamController.add({
       'type': 'CAMPUS_BROADCAST',
-      'title': '📢 $title',
+      'title': title,
       'body': message,
       'timestamp': DateTime.now(),
     });

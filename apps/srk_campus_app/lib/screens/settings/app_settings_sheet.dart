@@ -19,23 +19,24 @@ class AppSettingsSheet extends StatelessWidget {
   }
 
   void _shareApp(BuildContext context) {
-    const shareText = '''🏛️ SRK Campus Super-App
-Official Institutional Presence, Principal Summon & Classroom Coordination App.
+    final liveUrl = AppConstants.cloudflareTunnelUrl;
+    final shareText = '''SRK Campus Institutional App
+Official Institutional Presence, Principal Summon & Classroom Coordination Platform.
 
-📥 Download APK:
+Download APK:
 https://github.com/abdulzubair1135/srk-campus-platform/releases
 
-🌐 Live Campus Web Portal & Control Panel:
-https://loves-considerations-pensions-deutsch.trycloudflare.com''';
+Live Campus Web Portal & Audit Center:
+$liveUrl/control-panel''';
 
-    Share.share(shareText, subject: 'Download SRK Campus Super-App');
+    Share.share(shareText, subject: 'SRK Campus Application');
   }
 
   void _copyToClipboard(BuildContext context, String text, String label) {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('✅ $label copied to clipboard!'),
+        content: Text('$label copied to clipboard!'),
         backgroundColor: AppTheme.primaryNavy,
         behavior: SnackBarBehavior.floating,
       ),
@@ -109,7 +110,7 @@ https://loves-considerations-pensions-deutsch.trycloudflare.com''';
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        '📤 Share SRK Campus App',
+                        'Share SRK Campus App',
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Container(
@@ -156,11 +157,11 @@ https://loves-considerations-pensions-deutsch.trycloudflare.com''';
                 child: Icon(Icons.link_rounded, color: Colors.blue),
               ),
               title: const Text('Copy Web Control Panel Link', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-              subtitle: const Text('https://loves-considerations-pensions-deutsch.trycloudflare.com', style: TextStyle(fontSize: 11)),
+              subtitle: const Text(AppConstants.cloudflareTunnelUrl, style: TextStyle(fontSize: 11)),
               trailing: const Icon(Icons.copy_rounded, size: 18),
               onTap: () => _copyToClipboard(
                 context,
-                'https://loves-considerations-pensions-deutsch.trycloudflare.com/control-panel',
+                '${AppConstants.cloudflareTunnelUrl}/control-panel',
                 'Web Portal Link',
               ),
             ),
@@ -200,7 +201,7 @@ https://loves-considerations-pensions-deutsch.trycloudflare.com''';
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Cloud Server', style: TextStyle(fontSize: 12, color: Colors.grey)),
-                  Text('Online 🟢 (Port 5000 + Tunnel)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green)),
+                  Text('Online (Port 5000 + Tunnel)', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green)),
                 ],
               ),
             ),

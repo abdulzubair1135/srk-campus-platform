@@ -115,7 +115,7 @@ class SocketService {
     final reason = data['reason'] ?? 'Emergency Institutional Summon';
 
     LocalNotificationService().showNotification(
-      title: '🚨 URGENT: Principal Cabin Summon',
+      title: 'URGENT: Principal Cabin Summon',
       body: '$caller has summoned you to $room. Reason: $reason. Tap to respond: [BUSY / ON THE WAY]',
       isUrgent: true,
       payload: 'urgent_summon',
@@ -124,7 +124,7 @@ class SocketService {
 
   void _handleBroadcast(dynamic data) {
     if (data == null) return;
-    final title = data['title'] ?? '📢 CAMPUS ANNOUNCEMENT';
+    final title = data['title'] ?? 'CAMPUS ANNOUNCEMENT';
     final message = data['message'] ?? data['body'] ?? 'New institutional notice posted.';
 
     LocalNotificationService().showNotification(

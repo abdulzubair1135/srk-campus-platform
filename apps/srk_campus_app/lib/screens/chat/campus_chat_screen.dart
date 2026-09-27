@@ -67,13 +67,13 @@ class _CampusChatScreenState extends ConsumerState<CampusChatScreen> {
   ];
 
   final List<String> _quickPhrases = [
-    '📍 Please report to Principal Cabin P-01',
-    '🕒 Class is postponed by 10 minutes',
-    '📚 Please share today\'s lecture notes',
-    '🟢 I have reached campus',
-    '🔴 Currently busy in lecture / lab',
-    '✅ Acknowledged. On my way.',
-    '❓ Free for quick discussion?',
+    'Please report to Principal Cabin P-01',
+    'Class is postponed by 10 minutes',
+    'Please share today\'s lecture notes',
+    'Arrived on campus',
+    'Currently in lecture / laboratory',
+    'Acknowledged. On my way.',
+    'Available for consultation / discussion',
   ];
 
   @override
@@ -209,11 +209,11 @@ class _CampusChatScreenState extends ConsumerState<CampusChatScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '💬 Select Recipient / UID',
+                            'Select Recipient / Campus UID',
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.primaryNavy),
                           ),
                           Text(
-                            'Choose who you want to message directly',
+                            'Choose recipient for 1-to-1 secure direct messaging',
                             style: TextStyle(fontSize: 12, color: Colors.grey),
                           ),
                         ],
@@ -264,8 +264,8 @@ class _CampusChatScreenState extends ConsumerState<CampusChatScreen> {
                     backgroundColor: AppTheme.primaryNavy,
                     child: Icon(Icons.campaign_rounded, color: Colors.white, size: 20),
                   ),
-                  title: const Text('📢 Campus Broadcast Channel', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                  subtitle: const Text('Broadcasts message to all 30 campus members', style: TextStyle(fontSize: 11)),
+                  title: const Text('Campus Broadcast Channel', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                  subtitle: const Text('Broadcasts message to all campus members', style: TextStyle(fontSize: 11)),
                   onTap: () {
                     setState(() => _selectedRecipient = null);
                     Navigator.pop(ctx);
@@ -361,7 +361,7 @@ class _CampusChatScreenState extends ConsumerState<CampusChatScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _selectedRecipient?['name'] ?? '📢 Campus Channel',
+                      _selectedRecipient?['name'] ?? 'Campus Broadcast Channel',
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       overflow: TextOverflow.ellipsis,
                     ),

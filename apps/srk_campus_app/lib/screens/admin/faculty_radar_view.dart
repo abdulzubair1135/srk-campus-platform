@@ -106,8 +106,8 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
             backgroundColor: status == 'ARRIVING' ? AppTheme.statusGreen : AppTheme.statusAmber,
             content: Text(
               status == 'ARRIVING'
-                  ? '🟢 Faculty is on the way to Principal Cabin (ETA 2 mins)'
-                  : '🔴 Faculty Auto-Response: Currently busy in ${autoDetails['location'] ?? 'Class'}',
+                  ? 'Faculty is on the way to Principal Cabin (ETA 2 mins)'
+                  : 'Faculty Auto-Response: Currently busy in ${autoDetails['location'] ?? 'Class'}',
             ),
           ),
         );
@@ -137,7 +137,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
           children: [
             Icon(Icons.notifications_active_rounded, color: AppTheme.statusRed),
             SizedBox(width: 8),
-            Text('🚨 Urgent Summon', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            Text('Urgent Summon', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
           ],
         ),
         content: Column(
@@ -159,9 +159,9 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('📍 Current Location: ${faculty['location']}', style: const TextStyle(fontSize: 12)),
-                  Text('📚 Active Class: ${faculty['subject']}', style: const TextStyle(fontSize: 12)),
-                  Text('👥 Students Present: ${faculty['studentCount']}', style: const TextStyle(fontSize: 12)),
+                  Text('Current Location: ${faculty['location']}', style: const TextStyle(fontSize: 12)),
+                  Text('Active Class: ${faculty['subject']}', style: const TextStyle(fontSize: 12)),
+                  Text('Students Present: ${faculty['studentCount']}', style: const TextStyle(fontSize: 12)),
                 ],
               ),
             ),
@@ -193,7 +193,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: AppTheme.primaryNavy,
-                    content: Text('🚨 Urgent summon dispatched to ${faculty['name']} phone!'),
+                    content: Text('Urgent summon dispatched to ${faculty['name']} phone.'),
                   ),
                 );
               }
@@ -353,7 +353,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
                 ),
                 if (faculty['studentCount'] > 0)
                   Text(
-                    '👥 ${faculty['studentCount']} Students',
+                    '${faculty['studentCount']} Students Enrolled',
                     style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.secondaryNavy),
                   ),
               ],
@@ -374,7 +374,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '🚨 Summon dispatched. Waiting for 1-tap teacher response...',
+                        'Summon dispatched. Awaiting faculty 1-tap acknowledgment...',
                         style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.brown),
                       ),
                     ),
@@ -398,7 +398,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('🔴 TEACHER AUTO-RESPONSE: BUSY IN CLASS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: AppTheme.statusRed)),
+                          const Text('TEACHER AUTO-RESPONSE: BUSY IN CLASS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: AppTheme.statusRed)),
                           Text(
                             faculty['busyReason'] ?? 'In active lecture at ${faculty['location']} (${faculty['studentCount']} students present).',
                             style: const TextStyle(fontSize: 11, color: Colors.black87),
@@ -426,7 +426,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('🟢 TEACHER STATUS: ON THE WAY / ARRIVING', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: AppTheme.statusGreen)),
+                          const Text('TEACHER STATUS: ON THE WAY / ARRIVING', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: AppTheme.statusGreen)),
                           Text(
                             'Walking to Principal Cabin P-01 • Estimated arrival: ${faculty['eta'] ?? '2 mins'}',
                             style: const TextStyle(fontSize: 11, color: Colors.black87),
@@ -448,7 +448,7 @@ class _FacultyRadarViewState extends ConsumerState<FacultyRadarView> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                 ),
                 icon: const Icon(Icons.send_rounded, size: 16),
-                label: const Text('🚨 Summon to Cabin', style: TextStyle(fontSize: 13)),
+                label: const Text('Summon to Cabin', style: TextStyle(fontSize: 13)),
                 onPressed: () => _summonTeacher(faculty),
               ),
             ),

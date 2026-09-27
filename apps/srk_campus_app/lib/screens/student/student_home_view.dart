@@ -119,11 +119,11 @@ class _StudentHomeViewState extends ConsumerState<StudentHomeView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '📡 BLE Mesh Campus Sync: Active',
+                        'BLE Mesh Offline Sync: Active',
                         style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.secondaryNavy),
                       ),
                       Text(
-                        'Campus notices and classroom updates will sync automatically even without internet.',
+                        'Campus notices and classroom updates sync automatically even without internet.',
                         style: TextStyle(fontSize: 11, color: Colors.black87),
                       ),
                     ],
@@ -173,7 +173,7 @@ class _StudentHomeViewState extends ConsumerState<StudentHomeView> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    isLive ? '🔴 LIVE NOW' : item['time'],
+                    isLive ? 'IN SESSION' : item['time'],
                     style: TextStyle(
                       color: isLive ? AppTheme.statusGreen : Colors.grey.shade800,
                       fontWeight: FontWeight.bold,

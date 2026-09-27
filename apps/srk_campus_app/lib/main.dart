@@ -33,7 +33,7 @@ class _SRKCampusAppState extends ConsumerState<SRKCampusApp> {
     SocketService().on('meeting.new', (data) {
       if (data != null) {
         LocalNotificationService().showNotification(
-          title: '🚨 URGENT: Principal Cabin Summon',
+          title: 'URGENT: Principal Cabin Summon',
           body: '${data['callerName'] ?? 'Dr. Nirdesh Buch'} has summoned you to ${data['location'] ?? 'Principal Cabin P-01'}. Tap to respond: [BUSY / ON THE WAY]',
           isUrgent: true,
         );
@@ -44,7 +44,7 @@ class _SRKCampusAppState extends ConsumerState<SRKCampusApp> {
     SocketService().on('broadcast.new', (data) {
       if (data != null) {
         LocalNotificationService().showNotification(
-          title: '📢 CAMPUS BROADCAST',
+          title: 'CAMPUS BROADCAST',
           body: data['message'] ?? 'New institutional update posted.',
           isUrgent: false,
         );
