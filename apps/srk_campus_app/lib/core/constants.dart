@@ -1,23 +1,16 @@
-import 'dart:io';
-
 class AppConstants {
   static const String appName = "SRK Campus";
   static const String institutionName = "SRK Institute of Management & Computer Education";
   
-  // Base API URL
+  // Public Live Cloudflare Tunnel URL (Global HTTPS & WSS)
+  static const String cloudflareTunnelUrl = 'https://loves-considerations-pensions-deutsch.trycloudflare.com';
+
   static String get baseUrl {
-    // When running via adb reverse tcp:5000 tcp:5000 or on standard Android emulator
-    if (Platform.isAndroid) {
-      return 'http://127.0.0.1:5000/api/v1';
-    }
-    return 'http://localhost:5000/api/v1';
+    return '$cloudflareTunnelUrl/api/v1';
   }
 
   static String get socketUrl {
-    if (Platform.isAndroid) {
-      return 'http://127.0.0.1:5000';
-    }
-    return 'http://localhost:5000';
+    return cloudflareTunnelUrl;
   }
 
   // Pre-configured Quick Login Accounts (Real SRK MongoDB Seeded Data)
@@ -28,7 +21,8 @@ class AppConstants {
       'title': 'Campus Principal',
       'email': 'nirdesh.buch@srk.edu',
       'password': 'Principal@123',
-      'dept': 'Administration',
+      'dept': 'Institutional Administration',
+      'uid': 'SRK-ADM-001',
     },
     'campus_head': {
       'role': 'CAMPUS_HEAD',
@@ -37,6 +31,7 @@ class AppConstants {
       'email': 'surbhi.ahir@srk.edu',
       'password': 'CampusHead@123',
       'dept': 'Academic Affairs',
+      'uid': 'SRK-ADM-002',
     },
     'teacher_nirali': {
       'role': 'FACULTY',
@@ -46,6 +41,7 @@ class AppConstants {
       'password': 'Faculty@123',
       'dept': 'Computer Applications (BCA)',
       'cabin': 'Faculty Cabin F-04',
+      'uid': 'SRK-FAC-101',
     },
     'teacher_arjun': {
       'role': 'FACULTY',
@@ -55,6 +51,7 @@ class AppConstants {
       'password': 'Faculty@123',
       'dept': 'Computer Applications (BCA)',
       'cabin': 'Faculty Cabin F-08',
+      'uid': 'SRK-FAC-102',
     },
     'student_rahul': {
       'role': 'STUDENT',
@@ -62,8 +59,9 @@ class AppConstants {
       'title': 'Student',
       'email': 'rahul.shah@srk.edu',
       'password': 'Student@123',
-      'dept': 'BCA Sem 3 (Batch A)',
+      'dept': 'Computer Applications (BCA)',
       'rollNo': '24BCA001',
+      'uid': 'SRK-STU-201',
     },
   };
 }
