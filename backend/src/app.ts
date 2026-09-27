@@ -7,11 +7,18 @@ import { apiRoutes } from './routes';
 import { errorHandler } from './middleware/error.middleware';
 import { standardRateLimiter } from './middleware/rateLimiter.middleware';
 
+import path from 'path';
+
 export const createApp = (): Express => {
   const app = express();
 
-  // Security headers
-  app.use(helmet());
+  // Security headers with CSP relaxed for CDN web control panel
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginEmbedderPolicy: false
+    })
+  );
 
   // CORS configuration
   app.use(
@@ -29,6 +36,16 @@ export const createApp = (): Express => {
   // Body parser
   app.use(express.json({ limit: '5mb' }));
   app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+
+  // Static Assets & Control Panel Web UI
+  const publicDir = path.resolve(__dirname, '../public');
+  app.use(express.static(publicDir));
+  app.use('/public', express.static(publicDir));
+
+  // Direct Web Control Panel endpoints
+  app.get(['/', '/control-panel', '/dashboard'], (req, res) => {
+    res.sendFile(path.join(publicDir, 'index.html'));
+  });
 
   // Global Rate Limiting
   app.use(standardRateLimiter);
