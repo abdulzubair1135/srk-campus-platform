@@ -9,8 +9,8 @@ const noopMiddleware = (req: Request, res: Response, next: NextFunction) => next
 export const standardRateLimiter = envConfig.nodeEnv === 'test'
   ? noopMiddleware
   : rateLimit({
-      windowMs: envConfig.rateLimitWindowMs,
-      max: envConfig.rateLimitMaxRequests,
+      windowMs: 15 * 60 * 1000,
+      max: 2000,
       standardHeaders: true,
       legacyHeaders: false,
       handler: (req, res) => {

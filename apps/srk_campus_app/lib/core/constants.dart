@@ -3,7 +3,7 @@ class AppConstants {
   static const String institutionName = "SRK Institute of Management & Computer Education";
   
   // Public Live Cloudflare Tunnel URL (Global HTTPS & WSS)
-  static const String cloudflareTunnelUrl = 'https://loves-considerations-pensions-deutsch.trycloudflare.com';
+  static const String cloudflareTunnelUrl = 'https://posts-ease-der-similarly.trycloudflare.com';
 
   static String get baseUrl {
     return '$cloudflareTunnelUrl/api/v1';

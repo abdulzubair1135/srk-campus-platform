@@ -14,8 +14,8 @@ class SocketService {
 
   final List<String> _candidateSocketUrls = [
     'http://127.0.0.1:5000',
+    'https://posts-ease-der-similarly.trycloudflare.com',
     'https://srkcampus.loca.lt',
-    'https://loves-considerations-pensions-deutsch.trycloudflare.com',
     'http://10.0.2.2:5000',
     'http://localhost:5000',
   ];
